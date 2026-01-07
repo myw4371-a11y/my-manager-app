@@ -130,20 +130,26 @@ if ('serviceWorker' in navigator) {
 }
 // স্প্ল্যাশ স্ক্রিন কন্ট্রোল
 window.addEventListener('load', () => {
-    // অ্যানিমেশন ধাপগুলো শেষ হতে ৫-৬ সেকেন্ড লাগে
-    // তারপর ২ সেকেন্ড অতিরিক্ত ওয়েট করবে
+    const board = document.querySelector('.neon-signboard');
+    const friends = document.getElementById('friends');
+    const devTag = document.querySelector('.dev-tag');
+    const splash = document.getElementById('splash-screen');
+
+    // ৩.২ সেকেন্ড পর যখন স্টিকম্যান মাঝখানে পৌঁছাবে
     setTimeout(() => {
-        const splash = document.getElementById('splash-screen');
-        if (splash) {
-            splash.style.opacity = '0';
-            splash.style.transition = 'opacity 1s ease';
-            
-            setTimeout(() => {
-                splash.remove();
-                // এখানে আপনার হোম পেজ বা লগইন পেজ দেখানোর লজিক থাকবে
-                const authCont = document.getElementById('auth-container');
-                if(authCont) authCont.style.display = 'block';
-            }, 1000);
-        }
-    }, 8000); // মোট ৮ সেকেন্ড (৬ সেকেন্ড অ্যানিমেশন + ২ সেকেন্ড স্থির)
+        board.classList.add('light-up-board'); // সাইনবোর্ড জ্বলবে
+        friends.classList.add('show-friends'); // ১০ বন্ধু আসবে
+        devTag.classList.add('show-dev');      // নাম আসবে
+    }, 3200);
+
+    // মোট ৭ সেকেন্ড পর স্প্ল্যাশ স্ক্রিন চলে যাবে
+    setTimeout(() => {
+        splash.style.opacity = '0';
+        splash.style.transition = '1s';
+        setTimeout(() => splash.remove(), 1000);
+        
+        // লগইন পেজ দেখান
+        const auth = document.getElementById('auth-container');
+        if(auth) auth.style.display = 'block';
+    }, 7500);
 });

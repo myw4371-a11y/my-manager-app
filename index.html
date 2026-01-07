@@ -10,29 +10,33 @@
 </head>
 <body>
 <div id="splash-screen">
-    <div class="animation-container">
-        <div class="lines">
-            <div class="h-line"></div>
-            <div class="v-line"></div>
-            <div class="dev-text">Develop by Zord academy</div>
+    <div class="splash-content">
+        <div class="neon-signboard">আমরা ব্যাচেলর</div>
+
+        <div class="main-character-wrapper">
+            <svg class="stickman-svg main-walker" viewBox="0 0 100 100">
+                <circle cx="50" cy="20" r="10" fill="white" />
+                <path d="M50 30 L50 60 M50 40 L30 55 M50 40 L70 55 M50 60 L35 90 M50 60 L65 90" 
+                      stroke="white" stroke-width="4" fill="none" class="limbs" />
+                <circle cx="75" cy="55" r="4" fill="yellow" class="torch-head" />
+                <div class="torch-beam"></div>
+            </svg>
         </div>
 
-        <div class="stage">
-            <div class="row front">
-                <div class="stickman" id="char-1"><span></span></div> <div class="stickman" id="char-2"><span></span></div>
-                <div class="stickman" id="char-3"><span></span></div>
-                <div class="stickman" id="char-4"><span></span></div>
-                <div class="stickman" id="char-5"><span></span></div>
-            </div>
-            <div class="row back">
-                <div class="stickman" id="char-6"><span></span></div>
-                <div class="stickman" id="char-7"><span></span></div>
-                <div class="stickman" id="char-8"><span></span></div>
-                <div class="stickman" id="char-9"><span></span></div>
-                <div class="stickman" id="char-10"><span></span></div>
-            </div>
-            <div class="signboard">আমরা ব্যাচেলর</div>
+        <div class="friends-group" id="friends">
+            <div class="friend" style="--c: #ff0055; --x:-80px; --y:-40px">●</div>
+            <div class="friend" style="--c: #00ffcc; --x:80px; --y:-40px">●</div>
+            <div class="friend" style="--c: #ffff00; --x:-120px; --y:0px">●</div>
+            <div class="friend" style="--c: #ff00ff; --x:120px; --y:0px">●</div>
+            <div class="friend" style="--c: #007bff; --x:-60px; --y:40px">●</div>
+            <div class="friend" style="--c: #ffa500; --x:60px; --y:40px">●</div>
+            <div class="friend" style="--c: #adff2f; --x:-100px; --y:-80px">●</div>
+            <div class="friend" style="--c: #ff4500; --x:100px; --y:-80px">●</div>
+            <div class="friend" style="--c: #da70d6; --x:-150px; --y:50px">●</div>
+            <div class="friend" style="--c: #00ced1; --x:150px; --y:50px">●</div>
         </div>
+
+        <div class="dev-tag">Develop by Zord academy</div>
     </div>
 </div>
     <div id="auth-container">

@@ -128,14 +128,22 @@ if ('serviceWorker' in navigator) {
         };
     });
 }
-// ৫ সেকেন্ড পর অ্যানিমেশন বন্ধ করার লজিক
+// স্প্ল্যাশ স্ক্রিন কন্ট্রোল
 window.addEventListener('load', () => {
+    // অ্যানিমেশন ধাপগুলো শেষ হতে ৫-৬ সেকেন্ড লাগে
+    // তারপর ২ সেকেন্ড অতিরিক্ত ওয়েট করবে
     setTimeout(() => {
         const splash = document.getElementById('splash-screen');
         if (splash) {
             splash.style.opacity = '0';
-            splash.style.transition = 'opacity 0.8s ease';
-            setTimeout(() => splash.remove(), 800);
+            splash.style.transition = 'opacity 1s ease';
+            
+            setTimeout(() => {
+                splash.remove();
+                // এখানে আপনার হোম পেজ বা লগইন পেজ দেখানোর লজিক থাকবে
+                const authCont = document.getElementById('auth-container');
+                if(authCont) authCont.style.display = 'block';
+            }, 1000);
         }
-    }, 5000); 
+    }, 8000); // মোট ৮ সেকেন্ড (৬ সেকেন্ড অ্যানিমেশন + ২ সেকেন্ড স্থির)
 });

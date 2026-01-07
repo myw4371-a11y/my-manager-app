@@ -115,3 +115,16 @@ if(localStorage.getItem("activeUser")) {
     `;
     // মেইন ড্যাশবোর্ড লোড করার লজিক এখানে আসবে
 }
+// অটোমেটিক আপডেট এবং রিলোড লজিক
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js').then(reg => {
+        reg.onupdatefound = () => {
+            const installingWorker = reg.installing;
+            installingWorker.onstatechange = () => {
+                if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                    window.location.reload();
+                }
+            };
+        };
+    });
+}

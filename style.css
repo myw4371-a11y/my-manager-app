@@ -162,76 +162,74 @@ body {
 #splash-screen {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: #000; z-index: 10000; display: flex; justify-content: center; align-items: center;
+    overflow: hidden;
 }
 
-/* লাইন অ্যানিমেশন */
-.h-line {
-    width: 0; height: 2px; background: #fff; margin: 0 auto;
-    animation: hLineGrow 0.5s 0.5s forwards;
-}
-.v-line {
-    width: 2px; height: 0; background: #fff; margin: 0 auto;
-    animation: vLineGrow 0.5s 1s forwards;
-}
-
-@keyframes hLineGrow { to { width: 120px; } }
-@keyframes vLineGrow { to { height: 60px; } }
-
-/* স্টিকম্যান বেসিক স্টাইল */
-.stickman {
-    width: 20px; height: 35px; position: relative; display: inline-block;
-    margin: 0 5px; opacity: 0;
-}
-.stickman span {
-    width: 8px; height: 8px; background: currentColor; border-radius: 50%;
-    display: block; margin: 0 auto; position: relative;
-}
-.stickman::after {
-    content: ''; width: 2px; height: 15px; background: currentColor;
-    display: block; margin: 0 auto;
+/* নিওন সাইনবোর্ড */
+.neon-signboard {
+    font-size: 24px; font-weight: 900; color: #fff;
+    padding: 10px 30px; border: 3px solid #fff; border-radius: 15px;
+    text-shadow: 0 0 10px #00dbde, 0 0 20px #fc00ff;
+    box-shadow: 0 0 15px rgba(255,255,255,0.2);
+    opacity: 0.2; /* শুরুতে অন্ধকার */
+    transition: 0.5s;
+    position: absolute; top: 30%;
 }
 
-/* মেইন স্টিকম্যান বের হওয়া (চরিত্র ১) */
-#char-1 {
-    color: white; opacity: 0; position: absolute; left: 50%; transform: translateX(-50%);
-    animation: charEmerge 1s 1.5s forwards;
-}
-@keyframes charEmerge {
-    0% { bottom: -20px; opacity: 0; }
-    100% { bottom: 0; opacity: 1; }
+/* স্টিকম্যান ও টর্চ বিম */
+.main-character-wrapper {
+    position: absolute; left: -100px; bottom: 20%;
+    animation: walkIn 3s ease-in-out forwards;
 }
 
-/* পাশের ক্যারেক্টারগুলো (দাপ করে আসা) */
-#char-2, #char-3 { color: #FF5733; animation: popIn 0.3s 2.5s forwards; }
-#char-4, #char-5 { color: #33FF57; animation: popIn 0.3s 2.8s forwards; }
-
-/* পেছনের ক্যারেক্টারগুলো (ভিন্ন ভিন্ন রঙ) */
-#char-6 { color: #3357FF; animation: popIn 0.3s 3.2s forwards; }
-#char-7 { color: #F333FF; animation: popIn 0.3s 3.4s forwards; }
-#char-8 { color: #FFFF33; animation: popIn 0.3s 3.6s forwards; }
-#char-9 { color: #00FFFF; animation: popIn 0.3s 3.8s forwards; }
-#char-10 { color: #FF8C00; animation: popIn 0.3s 4.0s forwards; }
-
-@keyframes popIn {
-    0% { transform: scale(0); opacity: 0; }
-    100% { transform: scale(1); opacity: 1; }
+@keyframes walkIn {
+    0% { left: -100px; }
+    100% { left: 45%; transform: translateX(-50%); }
 }
 
-/* সাইনবোর্ড অ্যানিমেশন */
-.signboard {
-    position: absolute; left: 50%; transform: translateX(-50%);
-    bottom: 40px; background: white; color: black; padding: 5px 15px;
-    font-weight: bold; border-radius: 4px; font-size: 14px; opacity: 0;
-    animation: boardSlide 0.5s 4.5s forwards;
-}
-@keyframes boardSlide { to { bottom: 55px; opacity: 1; } }
+.stickman-svg { width: 80px; height: 80px; }
 
-/* ডেভেলপার টেক্সট */
-.dev-text {
-    color: white; font-size: 12px; margin-top: 10px; opacity: 0;
-    text-align: center; animation: fadeIn 0.5s 5s forwards;
+/* টর্চের আলো */
+.torch-beam {
+    position: absolute; width: 150px; height: 100px;
+    background: radial-gradient(ellipse at left, rgba(255,255,200,0.4) 0%, transparent 80%);
+    top: 35px; left: 65px; clip-path: polygon(0 40%, 100% 0, 100% 100%, 0 60%);
+    opacity: 0; animation: flashOn 0.5s 3.2s forwards;
 }
-@keyframes fadeIn { to { opacity: 1; } }
 
-.stage { position: relative; height: 100px; margin-top: -85px; text-align: center; }
-.row.back { transform: scale(0.8); margin-top: -10px; opacity: 0.7; }
+@keyframes flashOn { 
+    to { opacity: 1; filter: drop-shadow(0 0 10px gold); } 
+}
+
+/* সাইনবোর্ড জ্বলে ওঠা */
+.light-up-board {
+    opacity: 1 !important;
+    box-shadow: 0 0 30px #00dbde, inset 0 0 20px #fc00ff;
+    animation: flicker 0.2s 3.2s 3;
+}
+
+@keyframes flicker { 0% { opacity: 0.2; } 100% { opacity: 1; } }
+
+/* বন্ধুদের গ্রুপ */
+.friends-group { position: absolute; width: 100%; height: 100%; pointer-events: none; }
+.friend {
+    position: absolute; top: 50%; left: 50%;
+    color: var(--c); font-size: 30px; opacity: 0;
+    transform: translate(var(--x), var(--y)) scale(0);
+    filter: drop-shadow(0 0 10px var(--c));
+}
+
+.show-friends .friend {
+    animation: popFriend 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes popFriend { to { opacity: 1; transform: translate(var(--x), var(--y)) scale(1); } }
+
+/* ডেভেলপ বাই ট্যাগ */
+.dev-tag {
+    position: absolute; bottom: 10%; color: #444; font-size: 14px;
+    opacity: 0; letter-spacing: 2px;
+}
+.show-dev { animation: fadeIn 1s forwards; }
+
+@keyframes fadeIn { to { opacity: 1; color: #fff; } }

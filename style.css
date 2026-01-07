@@ -63,7 +63,7 @@ body {
     margin: 12px 0;
     border-radius: 15px;
     border: 2px solid transparent;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.8);
     
     /* পরিবর্তন এখানে */
     color: #ffffff;      /* টেক্সট কালার সাদা */
@@ -125,7 +125,7 @@ body {
 .switch-text {
     margin-top: 20px;
     font-size: 14px;
-    color: #bbb;
+    color: #FFFFFF;
 }
 
 .switch-text span {

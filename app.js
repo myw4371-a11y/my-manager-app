@@ -128,3 +128,14 @@ if ('serviceWorker' in navigator) {
         };
     });
 }
+// ৫ সেকেন্ড পর অ্যানিমেশন বন্ধ করার লজিক
+window.addEventListener('load', () => {
+    setTimeout(() => {
+        const splash = document.getElementById('splash-screen');
+        if (splash) {
+            splash.style.opacity = '0';
+            splash.style.transition = 'opacity 0.8s ease';
+            setTimeout(() => splash.remove(), 800);
+        }
+    }, 5000); 
+});

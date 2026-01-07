@@ -1,6 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
 import { getDatabase, ref, set, get, child } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
 
+// আপনার Firebase কনফিগারেশন
 const firebaseConfig = {
   apiKey: "AIzaSyDDn9jkWO6WfJZCqxKX5HYaXyfyTW-BvEc",
   authDomain: "my-manager-app-e5332.firebaseapp.com",
@@ -12,10 +13,31 @@ const firebaseConfig = {
   measurementId: "G-DG6WEV0JBJ"
 };
 
+// Firebase শুরু করা
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-// পেজ টগল ফাংশন
+// ১. কাস্টম পপ-আপ মেসেজ ফাংশন (Aesthetic Pop-up)
+window.showAlert = (message, type = "error") => {
+    // আগের কোনো এলার্ট থাকলে সরিয়ে ফেলা
+    const oldAlert = document.querySelector('.custom-alert');
+    if (oldAlert) oldAlert.remove();
+
+    const alertBox = document.createElement('div');
+    alertBox.className = 'custom-alert';
+    // টাইপ অনুযায়ী কালার পরিবর্তন (সফল হলে সায়ান, ভুল হলে পিঙ্ক/লাল)
+    alertBox.style.background = type === "success" ? "rgba(0, 219, 222, 0.9)" : "rgba(252, 0, 255, 0.9)";
+    alertBox.innerText = message;
+    document.body.appendChild(alertBox);
+
+    // ৩ সেকেন্ড পর পপ-আপ চলে যাবে
+    setTimeout(() => {
+        alertBox.style.opacity = '0';
+        setTimeout(() => alertBox.remove(), 500);
+    }, 3000);
+};
+
+// ২. পেজ টগল ফাংশন (Login <-> Register)
 window.toggleAuth = () => {
     const reg = document.getElementById('reg-card');
     const login = document.getElementById('login-card');
@@ -23,12 +45,15 @@ window.toggleAuth = () => {
     login.style.display = login.style.display === 'none' ? 'block' : 'none';
 };
 
-// রেজিস্ট্রেশন লজিক (Realtime Database ব্যবহার করে)
+// ৩. রেজিস্ট্রেশন লজিক
 document.getElementById('reg-btn').addEventListener('click', async () => {
     const user = document.getElementById('reg-username').value.trim();
     const pass = document.getElementById('reg-password').value.trim();
 
-    if(!user || !pass) return alert("ইউজারনেম এবং পাসওয়ার্ড দিন!");
+    if(!user || !pass) {
+        showAlert("ইউজারনেম এবং পাসওয়ার্ড দিন!");
+        return;
+    }
 
     document.getElementById('reg-card').style.display = 'none';
     document.getElementById('loader').style.display = 'block';
@@ -37,7 +62,7 @@ document.getElementById('reg-btn').addEventListener('click', async () => {
     try {
         const snapshot = await get(child(dbRef, `users/${user}`));
         if (snapshot.exists()) {
-            alert("এই ইউজারনেমটি আগে কেউ নিয়েছে!");
+            showAlert("এই ইউজারনেমটি আগে কেউ নিয়েছে!");
             document.getElementById('loader').style.display = 'none';
             document.getElementById('reg-card').style.display = 'block';
         } else {
@@ -46,31 +71,47 @@ document.getElementById('reg-btn').addEventListener('click', async () => {
                 password: pass
             });
             localStorage.setItem("activeUser", user);
-            alert("সফলভাবে একাউন্ট তৈরি হয়েছে!");
-            location.reload();
+            showAlert("সফলভাবে একাউন্ট তৈরি হয়েছে!", "success");
+            setTimeout(() => location.reload(), 1500);
         }
-    } catch (e) { alert("Error: " + e.message); }
+    } catch (e) { 
+        showAlert("Error: " + e.message);
+        document.getElementById('loader').style.display = 'none';
+        document.getElementById('reg-card').style.display = 'block';
+    }
 });
 
-// লগইন লজিক
+// ৪. লগইন লজিক
 document.getElementById('login-btn').addEventListener('click', async () => {
     const user = document.getElementById('login-username').value.trim();
     const pass = document.getElementById('login-password').value.trim();
+
+    if(!user || !pass) {
+        showAlert("সঠিক তথ্য দিয়ে পূরণ করুন!");
+        return;
+    }
 
     const dbRef = ref(getDatabase());
     try {
         const snapshot = await get(child(dbRef, `users/${user}`));
         if (snapshot.exists() && snapshot.val().password === pass) {
             localStorage.setItem("activeUser", user);
-            alert("লগইন সফল!");
-            // এখান থেকে স্প্ল্যাশ স্ক্রিনে যাবে
+            showAlert("লগইন সফল হয়েছে!", "success");
+            // পরে এখানে স্প্ল্যাশ স্ক্রিনের কল যাবে
         } else {
-            alert("ইউজারনেম অথবা পাসওয়ার্ড ভুল!");
+            showAlert("ইউজারনেম অথবা পাসওয়ার্ড ভুল!");
         }
-    } catch (e) { alert("Error: " + e.message); }
+    } catch (e) { showAlert("Error: " + e.message); }
 });
 
-// চেক: অলরেডি লগইন কি না
+// ৫. অটো-লগইন চেক
 if(localStorage.getItem("activeUser")) {
-    document.getElementById('auth-container').innerHTML = "<h2 class='vibe-text'>Logging you in...</h2>";
+    document.getElementById('auth-container').innerHTML = `
+        <div class="auth-card">
+            <h2 class="vibe-text">স্বাগতম!</h2>
+            <p>আপনার একাউন্টে প্রবেশ করা হচ্ছে...</p>
+            <div class="spinner"></div>
+        </div>
+    `;
+    // মেইন ড্যাশবোর্ড লোড করার লজিক এখানে আসবে
 }

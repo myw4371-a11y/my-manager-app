@@ -1,16 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Manager App</title>
+    <title>Manager App - Auth</title>
     <link rel="stylesheet" href="style.css">
     <link rel="manifest" href="manifest.json">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <div id="app-container">
-        <h1>App is loading...</h1>
+    <div id="auth-container">
+        <div id="reg-card" class="auth-card">
+            <h2 class="vibe-text">নতুন একাউন্ট</h2>
+            <p>আপনার তথ্য দিয়ে শুরু করুন</p>
+            <div class="input-group">
+                <input type="text" id="reg-username" placeholder="ইউজারনেম (বাংলা/English)" required>
+                <input type="password" id="reg-password" placeholder="পাসওয়ার্ড" required>
+            </div>
+            <button id="reg-btn" class="main-btn">তৈরি করুন</button>
+            <p class="switch-text">একাউন্ট আছে? <span onclick="toggleAuth()">লগইন করুন</span></p>
+        </div>
+
+        <div id="login-card" class="auth-card" style="display:none;">
+            <h2 class="vibe-text">স্বাগতম</h2>
+            <p>আপনার একাউন্টে প্রবেশ করুন</p>
+            <div class="input-group">
+                <input type="text" id="login-username" placeholder="ইউজারনেম" required>
+                <input type="password" id="login-password" placeholder="পাসওয়ার্ড" required>
+            </div>
+            <button id="login-btn" class="main-btn">লগইন</button>
+            <p class="switch-text">একাউন্ট নেই? <span onclick="toggleAuth()">রেজিস্ট্রেশন করুন</span></p>
+        </div>
+
+        <div id="loader" style="display:none;">
+            <div class="spinner"></div>
+            <p>অপেক্ষা করুন...</p>
+        </div>
     </div>
 
     <script type="module" src="app.js"></script>

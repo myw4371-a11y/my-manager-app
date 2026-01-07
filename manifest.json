@@ -1,10 +1,10 @@
 {
-  "name": "Manager App",
+  "name": "My Manager App",
   "short_name": "Manager",
   "start_url": "index.html",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#764ba2",
+  "theme_color": "#000000",
   "icons": [
     {
       "src": "https://via.placeholder.com/192",
